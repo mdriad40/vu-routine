@@ -551,12 +551,54 @@
                 const studentLoadingOverlay = document.getElementById('studentLoadingOverlay');
                 const body = document.body;
 
-                // If user has visited and has persisted selection, hide landing and show student immediately
+                // If user has visited and has persisted selection, show student page with loading
                 if (hasVisited && department && semester && section && landingEl && studentEl) {
+                    // Hide landing screen
                     if (landingOverlay) landingOverlay.classList.add('hidden');
                     if (body) body.classList.remove('landing-lock');
                     landingEl.classList.add('hidden');
+
+                    // Show student screen
                     studentEl.classList.remove('hidden');
+
+                    // Show loading overlay immediately to prevent blank UI
+                    if (studentLoadingOverlay) {
+                        studentLoadingOverlay.classList.remove('hidden');
+                        body.classList.add('student-loading-lock');
+                    }
+
+                    // Function to check if data is loaded and hide preloader
+                    function checkAndHideLoader() {
+                        const scheduleContainer = document.getElementById('scheduleContainer');
+                        const emptyMessage = document.getElementById('emptyMessage');
+
+                        // Check if data is rendered (either schedule has content or empty message is shown)
+                        const hasScheduleData = scheduleContainer && scheduleContainer.children.length > 0;
+                        const hasEmptyMessage = emptyMessage && !emptyMessage.classList.contains('hidden');
+
+                        if (hasScheduleData || hasEmptyMessage) {
+                            // Data is loaded, hide the preloader
+                            if (studentLoadingOverlay) {
+                                studentLoadingOverlay.classList.add('hidden');
+                                body.classList.remove('student-loading-lock');
+                            }
+                        } else {
+                            // Data not loaded yet, check again soon
+                            setTimeout(checkAndHideLoader, 100);
+                        }
+                    }
+
+                    // Start checking after a brief moment to allow app.js to load
+                    setTimeout(checkAndHideLoader, 200);
+
+                    // Fallback: Hide after max 2 seconds even if data hasn't loaded
+                    setTimeout(function () {
+                        if (studentLoadingOverlay && !studentLoadingOverlay.classList.contains('hidden')) {
+                            studentLoadingOverlay.classList.add('hidden');
+                            body.classList.remove('student-loading-lock');
+                        }
+                    }, 2000);
+
                 } else if (landingOverlay && landingEl) {
                     // Ensure landing is visible for new users
                     landingOverlay.classList.remove('hidden');
