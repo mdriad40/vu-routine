@@ -1395,16 +1395,10 @@
     });
   }
 
-  // User Profile Card Click Handler
+  // User Profile Card - Hover Effects
   const userProfileCard = document.getElementById('userProfileCard');
-  console.log('Looking for userProfileCard:', userProfileCard);
-
   if (userProfileCard) {
-    console.log('Profile card found! Adding event listeners...');
-
-    // Add hover effect
     userProfileCard.addEventListener('mouseenter', () => {
-      console.log('Mouse entered profile card');
       userProfileCard.style.transform = 'translateY(-2px)';
       userProfileCard.style.boxShadow = '0 4px 12px rgba(108, 99, 255, 0.2)';
     });
@@ -1412,54 +1406,6 @@
       userProfileCard.style.transform = 'translateY(0)';
       userProfileCard.style.boxShadow = '';
     });
-
-    // Click to show profile info (temporary - can be replaced with edit modal)
-    userProfileCard.addEventListener('click', () => {
-      console.log('Profile card clicked!');
-      alert('Profile card clicked! Loading your information...');
-
-      const user = window.firebase?.auth()?.currentUser;
-      if (!user) {
-        alert('Please login first');
-        return;
-      }
-
-      // Get user data from Firebase
-      if (db) {
-        db.ref(`users/${user.uid}`).once('value').then((snapshot) => {
-          const userData = snapshot.val();
-          if (userData) {
-            let infoText = `📋 Your Profile Information:\n\n`;
-            infoText += `👤 Name: ${userData.name || 'N/A'}\n`;
-            infoText += `📧 Email: ${user.email || 'N/A'}\n`;
-            infoText += `🎭 Role: ${userData.role || 'N/A'}\n`;
-
-            if (userData.role === 'student') {
-              infoText += `🆔 Student ID: ${userData.studentId || 'N/A'}\n`;
-              infoText += `🏫 Department: ${userData.department || 'N/A'}\n`;
-              infoText += `📚 Semester: ${userData.semester || 'N/A'}\n`;
-              infoText += `📖 Section: ${userData.section || 'N/A'}\n`;
-            } else if (userData.role === 'teacher') {
-              infoText += `🆔 Teacher ID: ${userData.teacherId || 'N/A'}\n`;
-              infoText += `🏫 Department: ${userData.department || 'N/A'}\n`;
-              infoText += `📝 Short Form: ${userData.shortForm || 'N/A'}\n`;
-            }
-
-            infoText += `\n💡 Tip: Profile editing feature coming soon!`;
-            alert(infoText);
-          } else {
-            alert('No user data found in database');
-          }
-        }).catch((error) => {
-          console.error('Error fetching user data:', error);
-          alert('Unable to load profile information: ' + error.message);
-        });
-      } else {
-        alert('Database not connected');
-      }
-    });
-  } else {
-    console.log('Profile card NOT found - element may not be in DOM yet');
   }
 
   // Profile Edit Modal Functions
