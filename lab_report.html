@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Rat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="./lab_style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1 class="app-title">VU Lab Rat</h1>
+        </header>
+
+        <main class="content">
+            <section id="formSection" class="input-section card">
+                <h2>Enter Report Details</h2>
+
+                <!-- Auto-fill Toggle -->
+                <div class="addArea" style="justify-content: space-between; margin-bottom: 20px;">
+                    <span class="toggle-label" style="font-weight: 500; font-size: 14px; color: var(--text);">Fill
+                        details for:</span>
+                    <div class="toggle-wrapper">
+                        <span id="labelOther"
+                            style="font-size: 13px; margin-right: 12px; color: var(--muted);">Another</span>
+                        <label class="switch">
+                            <input type="checkbox" id="autoFillToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span id="labelMe"
+                            style="font-size: 13px; margin-left: 12px; font-weight: 600; color: var(--accent);">Me</span>
+                    </div>
+                </div>
+                <!-- End functionality -->
+
+                <div class="form-group">
+                    <label for="departmentSelect">Department</label>
+                    <select id="departmentSelect">
+                        <option value="EEE">EEE</option>
+                        <option value="CSE">CSE</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="courseCode">Course Code</label>
+                    <input type="text" id="courseCode" placeholder="e.g., EEE 101">
+                </div>
+
+                <div class="form-group">
+                    <label for="courseTitle">Course Title</label>
+                    <input type="text" id="courseTitle" placeholder="e.g., Electrical Circuits I">
+                </div>
+
+                <div class="form-group">
+                    <label for="experimentNo">Experiment No</label>
+                    <input type="text" id="experimentNo" placeholder="e.g., 01">
+                </div>
+
+                <div class="form-group">
+                    <label for="experimentName">Name of Experiment</label>
+                    <input type="text" id="experimentName" placeholder="e.g., Verification of Ohm's Law">
+                </div>
+
+                <h3>Submitted By</h3>
+
+                <div class="form-group">
+                    <label for="studentName">Name</label>
+                    <input type="text" id="studentName" placeholder="Your full name">
+                </div>
+
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" placeholder="e.g., 252311118">
+                    </div>
+                    <div class="form-group">
+                        <label for="semester">Semester</label>
+                        <input type="text" id="semester" placeholder="e.g., 1st">
+                    </div>
+                </div>
+
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="section">Section</label>
+                        <input type="text" id="section" placeholder="e.g., A">
+                    </div>
+                    <div class="form-group">
+                        <label for="batch">Batch</label>
+                        <input type="text" id="batch" placeholder="e.g., 37th">
+                    </div>
+                </div>
+
+                <h3>Submitted To</h3>
+
+                <!-- Teacher 1 -->
+                <div class="form-group">
+                    <label for="teacher1Name">Teacher 1 Name</label>
+                    <input type="text" id="teacher1Name" placeholder="First teacher's name">
+                </div>
+                <div class="form-group">
+                    <label for="teacher1Designation">Designation</label>
+                    <input type="text" id="teacher1Designation" placeholder="e.g., Assoc. Professor">
+                </div>
+
+                <!-- Teacher 2 Toggle & Fields -->
+                <div class="addArea">
+                    <input type="checkbox" id="teacher2Enable" checked>
+                    <label for="teacher2Enable">Add Teacher 2</label>
+                </div>
+
+                <div id="teacher2Fields">
+                    <div class="form-group">
+                        <label for="teacher2Name">Teacher 2 Name</label>
+                        <input type="text" id="teacher2Name" placeholder="Second teacher's name">
+                    </div>
+                    <div class="form-group">
+                        <label for="teacher2Designation">Designation</label>
+                        <input type="text" id="teacher2Designation" placeholder="e.g., Asst. Professor">
+                    </div>
+                </div>
+
+                <div class="two-column" id="dateInputsContainer">
+                    <div class="form-group">
+                        <label for="experimentDate">Date of Experiment</label>
+                        <input type="date" id="experimentDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="submissionDate">Date of Submission</label>
+                        <input type="date" id="submissionDate">
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button id="downloadBtn" class="primary-btn">Download PDF</button>
+                </div>
+            </section>
+
+            <section id="successSection" class="success-page hidden">
+                <div class="success-card card">
+                    <div id="successLottie" class="success-lottie"></div>
+                    <h2 class="success-title">PDF Downloaded Successfully</h2>
+                    <p class="success-message">Your VU lab report front page is ready. You can open it now, share with
+                        others, or create another one.</p>
+                    <div class="success-actions">
+                        <button id="openPdfBtn" class="action-btn primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            Open PDF
+                        </button>
+                        <button id="sharePdfBtn" class="action-btn secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            Share PDF
+                        </button>
+                        <button id="newReportBtn" class="action-btn ghost">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Create New
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="app-footer-inner">
+                <span class="app-footer-title">VU Clock - You Quick Assistant</span>
+                <span class="app-footer-subtitle">Lab Rat - Lab Report Front Page Assistant</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Hidden preview element for PDF generation -->
+    <div id="preview"
+        style="position: absolute; left: -9999px; top: -9999px; width: 210mm; min-height: 297mm; background: white; padding: 30px; font-family: 'Times New Roman', Times, serif; font-size: 17px; color: #000000;">
+        <div class="university-header">
+            <div class="eee-logo"><img class="eeeLogo" id="previewLeftLogo" src="logo_image/eee-logo.png"></div>
+            <div class="university-info">
+                <div class="university-name">VARENDRA UNIVERSITY</div>
+                <div class="department" id="previewDepartmentName">Department of Electrical and Electronic Engineering
+                </div>
+            </div>
+            <div class="vu-logo"><img class="vuLogo" src="logo_image/vu_logo.jpg"></div>
+        </div>
+
+        <div class="lab-report">Lab Report</div>
+
+        <table class="info-table00">
+            <tr>
+                <td style="font-size: 20px;">Course Code:</td>
+                <td id="previewCourseCode"></td>
+            </tr>
+            <tr>
+                <td style="font-size: 20px;">Course Title:</td>
+                <td id="previewCourseTitle"></td>
+            </tr>
+        </table>
+
+        <table class="info-table">
+            <tr>
+                <td>Experiment No.</td>
+                <td id="previewExperimentNo"></td>
+            </tr>
+            <tr>
+                <td>Name of the Experiment</td>
+                <td id="previewExperimentName"></td>
+            </tr>
+        </table>
+
+        <table class="submission-table">
+            <tr>
+                <th>
+                    <strong style="font-size: 22px;">Submitted By</strong>
+                </th>
+                <th>
+                    <strong style="font-size: 22px;">Submitted To</strong>
+                </th>
+            </tr>
+            <tr>
+                <td class="submitted-by">
+                    <span class="info-label">Name</span> : <span id="previewStudentName"></span><br>
+                    <span class="info-label">Student ID</span> : <span id="previewStudentId"></span><br>
+                    <span class="info-label">Section</span> : <span id="previewSection"></span><br>
+                    <span class="info-label">Semester</span> : <span id="previewSemester"></span><br>
+                    <span class="info-label">Batch</span> : <span id="previewBatch"></span>
+                </td>
+                <td class="submitted-to">
+                    1. <span class="info-label-teacher">Name</span> : <span id="previewTeacher1Name"></span><br>
+                    <span class="designation-line">&nbsp;&nbsp;&nbsp;<span class="info-label-teacher">Designation</span>
+                        : <span id="previewTeacher1Designation"></span></span><br>
+                    <span id="teacher2PreviewBlock">
+                        2. <span class="info-label-teacher">Name</span> &nbsp;: <span
+                            id="previewTeacher2Name"></span><br>
+                        <span class="designation-line">&nbsp;&nbsp;&nbsp;<span
+                                class="info-label-teacher">Designation</span>&nbsp;: <span
+                                id="previewTeacher2Designation"></span></span><br>
+                    </span>
+                    <span class="submitted-department">Department of Electrical and Electronic Engineering, Varendra
+                        University</span>
+                </td>
+            </tr>
+        </table>
+
+        <div class="date-section">
+            <div class="date-line">
+                <label class="date">Date of Experiment :</label> <span id="previewExperimentDate"
+                    class="date-value"></span>
+            </div>
+            <div class="date-line">
+                <label class="date">Date of Submission :</label> <span id="previewSubmissionDate"
+                    class="date-value"></span>
+            </div>
+        </div>
+
+        <div class="signature-line">
+            Signature of Course Teacher
+        </div>
+    </div>
+
+    <!-- Validation dialog -->
+    <div id="validationDialog" class="dialog-overlay hidden">
+        <div class="dialog-content card">
+            <div class="dialog-header">
+                <h3 class="dialog-title">Complete All Fields</h3>
+                <button class="dialog-close" id="validationClose" aria-label="Close">&times;</button>
+            </div>
+            <div class="dialog-body">
+                <p class="dialog-message">
+                    Please fill in all required fields before generating your lab report front page.
+                </p>
+                <ul class="dialog-list">
+                    <li>Course & experiment details</li>
+                    <li>Student information</li>
+                    <li>Teacher information and submission date</li>
+                </ul>
+                <button id="validationOk" class="primary-btn dialog-primary-btn">
+                    Okay, I will fill them
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="lab_script.js"></script>
+</body>
+
+</html>
