@@ -4185,7 +4185,7 @@
             if (isCR) role = 'cr';
           } catch (e) { }
 
-          userData = { name, id, dept, text_semester: sem, section: sec, phone, email, role, type: 'student' };
+          userData = { name, id, dept, text_semester: sem, section: sec, phone, email, role, type: 'student', createdAt: firebase.database.ServerValue.TIMESTAMP, lastLogin: firebase.database.ServerValue.TIMESTAMP };
         } else {
           email = document.getElementById('t_email').value;
           phone = document.getElementById('t_phone').value;
@@ -4202,7 +4202,7 @@
           if (!isTeacher) {
             throw new Error("You are not eligible for teacher account (Mobile mismatch).");
           }
-          userData = { name, phone, email, role: 'teacher', type: 'teacher' };
+          userData = { name, phone, email, role: 'teacher', type: 'teacher', createdAt: firebase.database.ServerValue.TIMESTAMP, lastLogin: firebase.database.ServerValue.TIMESTAMP };
         }
 
         const cred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
@@ -4229,6 +4229,11 @@
         if (authEls.authView) authEls.authView.classList.add('hidden');
         if (authEls.menuView) authEls.menuView.classList.remove('hidden');
         if (authEls.profileIcon) authEls.profileIcon.classList.remove('hidden');
+
+        // Update Last Login
+        db.ref('users/' + user.uid).update({
+          lastLogin: firebase.database.ServerValue.TIMESTAMP
+        });
 
         // Set up real-time listener for user profile
         if (userListenerRef) userListenerRef.off(); // clear previous if any
