@@ -877,7 +877,7 @@
       teacherIcon.src = 'attachment/id-card (1).png';
       queryIcon.src = 'attachment/history.png';
       moreIcon.src = 'attachment/application (1).png';
-    } else if (activeTab === 'more' || activeTab === 'empty' || activeTab === 'booking' || activeTab === 'privacy' || activeTab === 'support') {
+    } else if (activeTab === 'more' || activeTab === 'empty' || activeTab === 'booking' || activeTab === 'privacy' || activeTab === 'support' || activeTab === 'information') {
       studentIcon.src = 'attachment/student (1).png';
       teacherIcon.src = 'attachment/id-card (1).png';
       queryIcon.src = 'attachment/history (1).png';

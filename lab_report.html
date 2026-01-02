@@ -10,12 +10,56 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Tinos:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="./lab_style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
+    <style>
+        /* PDF Preview Styles - Matched to Desktop Dimensions */
+        #preview {
+            width: 210mm !important;
+            min-width: 210mm !important;
+            padding: 30px !important;
+            background: white;
+            color: #000000 !important;
+
+            /* Typography Consistency */
+            font-family: 'Tinos', 'Times New Roman', serif !important;
+            -webkit-text-size-adjust: none !important;
+            text-size-adjust: none !important;
+        }
+
+        #preview * {
+            -webkit-text-size-adjust: none !important;
+            text-size-adjust: none !important;
+            font-family: 'Tinos', 'Times New Roman', serif !important;
+        }
+
+        #preview table {
+            width: 100% !important;
+            table-layout: fixed !important;
+        }
+
+        #preview td,
+        #preview th {
+            vertical-align: top;
+        }
+
+        #preview .info-label,
+        #preview .info-label-teacher,
+        #preview .date {
+            white-space: nowrap !important;
+        }
+
+        #preview .signature-line {
+            width: 40% !important;
+            float: right !important;
+            margin-right: 6% !important;
+            margin-top: 114px !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -199,7 +243,7 @@
 
     <!-- Hidden preview element for PDF generation -->
     <div id="preview"
-        style="position: absolute; left: -9999px; top: -9999px; width: 210mm; min-height: 297mm; background: white; padding: 30px; font-family: 'Times New Roman', Times, serif; font-size: 17px; color: #000000;">
+        style="position: absolute; left: -9999px; top: -9999px; width: 794px; min-width: 794px; min-height: 1123px; background: white; padding: 40px; box-sizing: border-box; font-family: 'Times New Roman', Times, serif; font-size: 17px; color: #000000;">
         <div class="university-header">
             <div class="eee-logo"><img class="eeeLogo" id="previewLeftLogo" src="logo_image/eee-logo.png"></div>
             <div class="university-info">
@@ -252,18 +296,30 @@
                     <span class="info-label">Batch</span> : <span id="previewBatch"></span>
                 </td>
                 <td class="submitted-to">
-                    1. <span class="info-label-teacher">Name</span> : <span id="previewTeacher1Name"></span><br>
-                    <span class="designation-line">&nbsp;&nbsp;&nbsp;<span class="info-label-teacher">Designation</span>
-                        : <span id="previewTeacher1Designation"></span></span><br>
-                    <span id="teacher2PreviewBlock">
-                        2. <span class="info-label-teacher">Name</span> &nbsp;: <span
-                            id="previewTeacher2Name"></span><br>
-                        <span class="designation-line">&nbsp;&nbsp;&nbsp;<span
-                                class="info-label-teacher">Designation</span>&nbsp;: <span
-                                id="previewTeacher2Designation"></span></span><br>
-                    </span>
-                    <span class="submitted-department">Department of Electrical and Electronic Engineering, Varendra
-                        University</span>
+                    <!-- Teacher 1 -->
+                    <div style="display:flex; margin-bottom: 6px;">
+                        <span style="width: 20px;">1.</span>
+                        <div>
+                            <div><span class="info-label-teacher">Name</span> : <span id="previewTeacher1Name"></span>
+                            </div>
+                            <div><span class="info-label-teacher">Designation</span> : <span
+                                    id="previewTeacher1Designation"></span></div>
+                        </div>
+                    </div>
+
+                    <!-- Teacher 2 -->
+                    <div id="teacher2PreviewBlock" style="display:flex; margin-bottom: 6px;">
+                        <span style="width: 20px;">2.</span>
+                        <div>
+                            <div><span class="info-label-teacher">Name</span> : <span id="previewTeacher2Name"></span>
+                            </div>
+                            <div><span class="info-label-teacher">Designation</span> : <span
+                                    id="previewTeacher2Designation"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="submitted-department" style="margin-top: 15px;">Department of Electrical and Electronic
+                        Engineering, Varendra University</div>
                 </td>
             </tr>
         </table>

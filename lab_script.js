@@ -598,22 +598,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Wait a moment for images to load
                 setTimeout(() => {
+                    // Force scroll to top before capture to prevent cropping
+                    window.scrollTo(0, 0);
+
                     // Higher scale for better resolution (MS Word quality)
                     html2canvas(previewElement, {
-                        scale: 3, // High resolution for crisp text
+                        scale: 3,
                         useCORS: true,
                         logging: false,
                         backgroundColor: '#ffffff',
+                        width: 794, // Force A4 Width for canvas
+                        height: 1123, // Force A4 Height
+                        windowWidth: 1200, // Force Desktop Viewport logic
+                        scrollY: 0, // Reset Scroll
+                        scrollX: 0,
                         removeContainer: false,
                         imageTimeout: 5000,
                         allowTaint: false,
-                        windowWidth: 1920, // Force desktop width for consistent rendering on mobile
                         letterRendering: true, // Better text rendering
                         onclone: function (clonedDoc) {
                             // Ensure all text is black in cloned document
                             const clonedPreview = clonedDoc.getElementById('preview');
                             if (clonedPreview) {
+                                clonedPreview.style.transform = 'none'; // Reset any transforms
                                 clonedPreview.style.color = '#000000';
+
+                                // Explicitly force width again in clone
+                                clonedPreview.style.width = '794px';
+                                clonedPreview.style.minWidth = '794px';
+
                                 const allElements = clonedPreview.querySelectorAll('*');
                                 allElements.forEach(el => {
                                     el.style.color = '#000000';
